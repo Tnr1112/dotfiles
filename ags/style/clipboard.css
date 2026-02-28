@@ -1,0 +1,219 @@
+/* ╔══════════════════════════════════════════════════════════╗
+   ║    CLIPBOARD.CSS — Popup de historial de portapapeles    ║
+   ╚══════════════════════════════════════════════════════════╝ */
+
+/* ─── Keyframes del clipboard ───────────────────────────────── */
+
+/* El popup aparece desde escala 90% */
+@keyframes popup-appear {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Fila eliminada: sale por la derecha */
+@keyframes slide-out-right {
+  from { transform: translateX(0);    opacity: 1; max-height: 40px; }
+  to   { transform: translateX(60px); opacity: 0; max-height: 0;    }
+}
+
+/* Toast de notificación */
+@keyframes toast-appear {
+  0%   { transform: translateY(8px);  opacity: 0; }
+  20%  { transform: translateY(0);    opacity: 1; }
+  80%  { transform: translateY(0);    opacity: 1; }
+  100% { transform: translateY(-8px); opacity: 0; }
+}
+
+/* Flash en el ítem al copiarlo */
+@keyframes copy-flash {
+  0%   { background-color: alpha(var(--teal),  0.3); }
+  50%  { background-color: alpha(var(--teal),  0.15); }
+  100% { background-color: transparent; }
+}
+
+/* Botón de wipe parpadeando en modo confirmación */
+@keyframes confirm-blink {
+  0%, 100% { border-color: alpha(var(--red), 0.6); }
+  50%       { border-color: var(--red); }
+}
+
+/* ─── Ventana popup ─────────────────────────────────────────── */
+
+.clipboard-popup {
+  background: transparent;
+}
+
+.clipboard-inner {
+  background: alpha(var(--bg-dark), 0.96);
+  border-radius: var(--radius);
+  border: 1px solid alpha(var(--accent), 0.5);
+  padding: 12px;
+  min-width: 380px;
+  max-width: 460px;
+  max-height: 540px;
+  box-shadow: 0 8px 32px alpha(var(--border), 0.8);
+  animation: popup-appear 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ─── Header ────────────────────────────────────────────────── */
+
+.clipboard-header {
+  padding-bottom: 8px;
+  border-bottom: 1px solid alpha(var(--bg-hl), 0.6);
+}
+
+.clipboard-title {
+  color: var(--fg-bright);
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* ─── Toast ─────────────────────────────────────────────────── */
+
+.clip-toast {
+  color: var(--teal);
+  font-size: 12px;
+  background: alpha(var(--bg-hl), 0.5);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  animation: toast-appear 2.2s ease-in-out forwards;
+}
+
+/* ─── Barra de búsqueda ─────────────────────────────────────── */
+
+.clipboard-search {
+  background: alpha(var(--bg-hl), 0.4);
+  border: 1px solid alpha(var(--accent), 0.4);
+  border-radius: var(--radius-sm);
+  color: var(--fg-bright);
+  padding: 6px 10px;
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 13px;
+  transition: border-color var(--trans-fast), background var(--trans-fast);
+}
+
+.clipboard-search:focus {
+  border-color: var(--blue);
+  background: alpha(var(--bg-hl), 0.6);
+  outline: none;
+}
+
+/* ─── Lista scrollable ──────────────────────────────────────── */
+
+.clipboard-scroll {
+  min-height: 60px;
+}
+
+.clipboard-list {
+  padding: 2px;
+}
+
+/* ─── Ítems de portapapeles ─────────────────────────────────── */
+
+.clip-item {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+  transition:
+    background var(--trans-fast),
+    border-color var(--trans-fast),
+    transform var(--trans-fast);
+  animation: fade-in 200ms ease-out;
+}
+
+.clip-item:hover {
+  background: alpha(var(--bg-hl), 0.5);
+  border-color: alpha(var(--accent), 0.4);
+  transform: translateX(2px);
+}
+
+.clip-item:active {
+  animation: copy-flash 400ms ease-out;
+}
+
+.clip-icon {
+  color: var(--comment);
+  font-size: 14px;
+  min-width: 16px;
+}
+
+.clip-preview {
+  color: var(--fg);
+  font-size: 12px;
+  font-family: "JetBrainsMono Nerd Font", monospace;
+}
+
+/* ─── Botón eliminar fila ───────────────────────────────────── */
+
+.clip-delete-btn {
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 2px 4px;
+  color: var(--comment);
+  font-size: 12px;
+  opacity: 0;
+  transition: all var(--trans-fast);
+}
+
+.clip-item:hover .clip-delete-btn {
+  opacity: 1;
+}
+
+.clip-delete-btn:hover {
+  color: var(--red);
+  background: alpha(var(--red), 0.15);
+  transform: scale(1.1);
+}
+
+/* ─── Botón limpiar todo ────────────────────────────────────── */
+
+.clip-wipe-btn {
+  background: transparent;
+  border: 1px solid alpha(var(--comment), 0.3);
+  border-radius: var(--radius-sm);
+  padding: 3px 8px;
+  color: var(--comment);
+  font-size: 12px;
+  transition: all var(--trans-fast);
+}
+
+.clip-wipe-btn:hover {
+  color: var(--red);
+  border-color: alpha(var(--red), 0.5);
+  background: alpha(var(--red), 0.1);
+}
+
+.clip-wipe-btn.confirming {
+  color: var(--red);
+  border-color: var(--red);
+  animation: confirm-blink 800ms ease-in-out infinite;
+}
+
+/* ─── Vacío ─────────────────────────────────────────────────── */
+
+.clipboard-empty {
+  color: var(--comment);
+  font-size: 13px;
+  padding: 20px;
+  animation: fade-in 300ms ease-out;
+}
+
+/* ─── Footer / hints ────────────────────────────────────────── */
+
+.clipboard-footer {
+  padding-top: 8px;
+  border-top: 1px solid alpha(var(--bg-hl), 0.5);
+}
+
+.clipboard-hint {
+  color: var(--comment);
+  font-size: 11px;
+}

@@ -1,0 +1,153 @@
+/* ╔══════════════════════════════════════════════════════════╗
+   ║       MUSIC.CSS — Animaciones del widget musical         ║
+   ╚══════════════════════════════════════════════════════════╝ */
+
+/* ─── Keyframes exclusivos del widget musical ──────────────── */
+
+/* Album art: rotación continua al reproducir */
+@keyframes spin {
+  from { transform: rotate(0deg);   }
+  to   { transform: rotate(360deg); }
+}
+
+/* Texto marquee para títulos largos */
+@keyframes marquee {
+  0%   { transform: translateX(0%);    }
+  10%  { transform: translateX(0%);    }
+  90%  { transform: translateX(-100%); }
+  100% { transform: translateX(0%);    }
+}
+
+/* Borde pulsante en modo is-playing */
+@keyframes pulse-border {
+  0%, 100% { border-color: alpha(#7aa2f7, 0.4); box-shadow: 0 0 4px alpha(#7aa2f7, 0.2); }
+  50%       { border-color: alpha(#bb9af7, 0.8); box-shadow: 0 0 12px alpha(#bb9af7, 0.4); }
+}
+
+/* Shimmer de fondo cuando está reproduciendo */
+@keyframes music-shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+/* Ícono de nota musical pulsando cuando no hay música */
+@keyframes note-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1);    }
+  50%       { opacity: 0.6; transform: scale(1.12); }
+}
+
+/* ─── Contenedor de música ──────────────────────────────────── */
+
+.music-container {
+  padding: 2px 0;
+}
+
+.music-empty {
+  padding: 2px 4px;
+}
+
+.music-empty-icon {
+  color: var(--comment);
+  font-size: 16px;
+  animation: note-pulse 3s ease-in-out infinite;
+}
+
+/* ─── Reproductor activo ────────────────────────────────────── */
+
+.music-player {
+  background: alpha(var(--bg-hl), 0.3);
+  border-radius: var(--radius-sm);
+  border: 1px solid alpha(var(--accent), 0.3);
+  padding: 3px 8px;
+  transition:
+    background var(--trans-slow),
+    border-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.music-player.is-playing {
+  background: alpha(var(--bg-hl), 0.5);
+  animation: pulse-border 2.4s ease-in-out infinite;
+}
+
+/* ─── Cover art ─────────────────────────────────────────────── */
+
+.music-cover-wrapper {
+  min-width: 28px;
+  min-height: 28px;
+}
+
+.music-cover {
+  border-radius: 50%;
+  border: 1px solid alpha(var(--blue), 0.4);
+  transition: border-color var(--transition);
+}
+
+.music-cover.spinning {
+  animation: spin 8s linear infinite;
+  border-color: var(--purple);
+}
+
+.music-cover-fallback {
+  color: var(--comment);
+  font-size: 20px;
+  animation: note-pulse 2.5s ease-in-out infinite;
+}
+
+/* ─── Info de la pista ──────────────────────────────────────── */
+
+.music-info {
+  min-width: 100px;
+  max-width: 160px;
+  overflow: hidden;
+}
+
+.music-title {
+  color: var(--fg-bright);
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.music-title.marquee {
+  animation: marquee 10s linear infinite;
+}
+
+.music-artist {
+  color: var(--comment);
+  font-size: 11px;
+}
+
+/* ─── Controles ─────────────────────────────────────────────── */
+
+.music-controls {
+  padding: 0 2px;
+}
+
+.music-btn {
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 2px 4px;
+  color: var(--fg-dark);
+  font-size: 14px;
+  transition: all var(--trans-fast);
+}
+
+.music-btn:hover {
+  background: alpha(var(--bg-hl), 0.6);
+  color: var(--fg-bright);
+  transform: scale(1.15);
+}
+
+.music-btn:active {
+  transform: scale(0.9);
+}
+
+.music-btn-play {
+  color: var(--blue);
+  font-size: 16px;
+}
+
+.music-btn-play:hover {
+  color: var(--sky);
+}

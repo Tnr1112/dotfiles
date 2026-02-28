@@ -1,0 +1,58 @@
+# ╔══════════════════════════════════════════════════════════╗
+# ║          CAVA CONFIG — Visualizador terminal              ║
+# ║          Gradiente Tokyo Night — 60 FPS                  ║
+# ╚══════════════════════════════════════════════════════════╝
+
+[general]
+framerate     = 60
+bars          = 0          # 0 = auto (ancho del terminal)
+bar_width     = 2
+bar_spacing   = 1
+sensitivity   = 100
+autosens      = 1
+lower_cutoff_freq  = 50
+higher_cutoff_freq = 10000
+sleep_timer   = 0
+
+[input]
+method = pipewire
+source = auto
+# Para capturar solo un sink específico:
+# source = alsa_output.pci-0000_00_1f.3.analog-stereo.monitor
+active  = 1
+remix   = 1
+virtual = 1
+
+[output]
+method      = noncurses
+orientation = bottom
+channels    = stereo
+reverse     = 0
+
+[color]
+background = default
+foreground = default
+
+# Gradiente vertical de 8 colores — graves (abajo) → agudos (arriba)
+# Tokyo Night completo
+gradient          = 1
+gradient_color_1  = '#7aa2f7'   # blue    — graves
+gradient_color_2  = '#7dcfff'   # sky
+gradient_color_3  = '#bb9af7'   # purple
+gradient_color_4  = '#2ac3de'   # cyan
+gradient_color_5  = '#73daca'   # teal
+gradient_color_6  = '#9ece6a'   # green
+gradient_color_7  = '#e0af68'   # yellow
+gradient_color_8  = '#f7768e'   # red     — agudos
+
+[smoothing]
+noise_reduction = 77
+
+[eq]
+# Ecualización manual de bandas (1 = sin modificar)
+1 = 1    # sub-bass
+2 = 1    # bass
+3 = 1    # low-mid
+4 = 1    # mid
+5 = 1    # high-mid
+6 = 1    # treble

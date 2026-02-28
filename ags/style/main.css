@@ -1,0 +1,230 @@
+/* ╔══════════════════════════════════════════════════════════╗
+   ║       MAIN.CSS — Estilos globales AGS — Tokyo Night      ║
+   ║       @import music.css y clipboard.css                  ║
+   ╚══════════════════════════════════════════════════════════╝ */
+
+@import "./music.css";
+@import "./clipboard.css";
+
+/* ──────────────────── VARIABLES ─────────────────────────── */
+* {
+  --bg:          #1a1b26;
+  --bg-dark:     #16161e;
+  --bg-darker:   #13131a;
+  --bg-hl:       #292e42;
+  --fg:          #a9b1d6;
+  --fg-bright:   #c0caf5;
+  --fg-dark:     #787c99;
+  --comment:     #565f89;
+
+  --blue:        #7aa2f7;
+  --sky:         #7dcfff;
+  --purple:      #bb9af7;
+  --cyan:        #2ac3de;
+  --teal:        #73daca;
+  --green:       #9ece6a;
+  --yellow:      #e0af68;
+  --orange:      #ff9e64;
+  --red:         #f7768e;
+  --red-dark:    #db4b4b;
+
+  --border:      #101014;
+  --accent:      #3d59a1;
+
+  --radius:      12px;
+  --radius-sm:   6px;
+  --transition:  300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --trans-fast:  150ms ease-out;
+  --trans-slow:  500ms ease-in-out;
+
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 13px;
+}
+
+/* ──────────────────── KEYFRAMES GLOBALES ───────────────────── */
+
+/* Entrada desde arriba */
+@keyframes slide-in-top {
+  from { margin-top: -48px; opacity: 0; }
+  to   { margin-top: 0;     opacity: 1; }
+}
+
+/* Salida hacia abajo */
+@keyframes slide-out-bottom {
+  from { margin-top: 0;    opacity: 1; }
+  to   { margin-top: 48px; opacity: 0; }
+}
+
+/* Pop animado con rebote */
+@keyframes pop-in {
+  0%   { transform: scale(0.7);  opacity: 0; }
+  60%  { transform: scale(1.08); opacity: 1; }
+  80%  { transform: scale(0.96); }
+  100% { transform: scale(1);    opacity: 1; }
+}
+
+/* Fade simple */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* Flip vertical para el reloj */
+@keyframes flip-digit {
+  0%   { transform: rotateX(0deg);   opacity: 1; }
+  40%  { transform: rotateX(-90deg); opacity: 0; }
+  60%  { transform: rotateX(90deg);  opacity: 0; }
+  100% { transform: rotateX(0deg);   opacity: 1; }
+}
+
+/* Pulso genérico */
+@keyframes pulse {
+  0%, 100% { opacity: 1;   transform: scale(1);    }
+  50%       { opacity: 0.7; transform: scale(0.96); }
+}
+
+/* Flash verde para confirmaciones */
+@keyframes flash-green {
+  0%   { background-color: var(--teal); }
+  50%  { background-color: var(--teal); opacity: 0.6; }
+  100% { background-color: transparent; }
+}
+
+/* ──────────────────── BARRA PRINCIPAL ───────────────────── */
+
+.bar {
+  background: transparent;
+  padding: 0;
+}
+
+.bar-inner {
+  background: alpha(var(--bg), 0.88);
+  border-radius: var(--radius);
+  border: 1px solid alpha(var(--accent), 0.4);
+  padding: 0 12px;
+  min-height: 36px;
+  animation: slide-in-top 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.bar-left,
+.bar-right,
+.bar-center {
+  padding: 4px 0;
+}
+
+/* ──────────────────── WORKSPACES ──────────────────────────── */
+
+.workspaces {
+  padding: 2px 4px;
+}
+
+.workspace-btn {
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 2px 4px;
+  min-width: 22px;
+  min-height: 22px;
+  transition: all var(--trans-fast);
+  color: var(--comment);
+}
+
+.workspace-btn:hover {
+  background: alpha(var(--bg-hl), 0.6);
+  transform: scale(1.15);
+  color: var(--fg);
+}
+
+.workspace-btn.active {
+  background: alpha(var(--accent), 0.5);
+  color: var(--blue);
+  transform: scale(1.2);
+  animation: pop-in 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.workspace-btn.occupied:not(.active) {
+  color: var(--fg-dark);
+}
+
+.workspace-icon {
+  font-size: 14px;
+  transition: all var(--trans-fast);
+}
+
+/* ──────────────────── RELOJ ───────────────────────────────── */
+
+.clock-widget {
+  padding: 2px 10px;
+  border-radius: var(--radius-sm);
+  background: alpha(var(--bg-hl), 0.4);
+  transition: background var(--trans-slow);
+}
+
+.clock-widget:hover {
+  background: alpha(var(--bg-hl), 0.7);
+}
+
+.clock-time {
+  color: var(--fg-bright);
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  transition: color var(--trans-slow);
+}
+
+.clock-time.flip {
+  animation: flip-digit 400ms ease-in-out;
+}
+
+.clock-date {
+  color: var(--blue);
+  font-size: 11px;
+  text-transform: capitalize;
+}
+
+.clock-sep {
+  color: var(--comment);
+  font-size: 10px;
+}
+
+/* ──────────────────── SYSTRAY ─────────────────────────────── */
+
+.systray {
+  padding: 2px 4px;
+}
+
+.systray-item {
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 3px;
+  transition: all var(--trans-fast);
+  color: var(--fg-dark);
+}
+
+.systray-item:hover {
+  background: alpha(var(--bg-hl), 0.7);
+  color: var(--fg-bright);
+  transform: scale(1.1);
+  animation: pop-in 200ms ease-out;
+}
+
+/* ──────────────────── CAVA VISUALIZER ─────────────────────── */
+
+.cava-container {
+  padding: 2px 6px;
+  min-width: 80px;
+  align-items: flex-end;
+  min-height: 30px;
+}
+
+.cava-bar {
+  min-width: 3px;
+  border-radius: 2px 2px 0 0;
+  transition: min-height 60ms linear;
+}

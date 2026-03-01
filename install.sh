@@ -350,7 +350,7 @@ uninstall_rice() {
     if [[ -L "$link" ]]; then
       rm "$link"
       ok "Eliminado symlink: $link"
-      ((removed++))
+      removed=$((removed + 1))
     else
       info "No es un symlink (saltando): $link"
     fi
@@ -438,7 +438,7 @@ show_menu() {
 # ──────────────────── PUNTO DE ENTRADA ───────────────────────────
 main() {
   # Flag --uninstall
-  if [[ "${1:-}" == "--uninstall" ]]; then
+  if [[ "${1:-}" == "--uninstall" || "${1:-}" == "uninstall" ]]; then
     check_arch
     uninstall_rice
     exit 0
